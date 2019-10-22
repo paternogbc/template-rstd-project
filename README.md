@@ -12,4 +12,10 @@ Here you can include a small description of your project
 
 Here is a note about the project
 
-## Another section
+***
+
+# How to use this templae?
+
+Download the repository, unzip and be happy. =)
+
+![deepin-screen-recorder_Select area_20191022002011](https://user-images.githubusercontent.com/9639481/67257474-7e08f780-f462-11e9-84f7-3e7e37c77c35.gif)
