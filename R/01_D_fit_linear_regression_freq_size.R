@@ -6,6 +6,7 @@
 # Start----
 # Packages ----------------------------------------------------------------
 library(tidyverse)
+library(sjPlot)
 
 # Load data ---------------------------------------------------------------
 dat <- read.csv(file = "data/processed/processed_anura_call_data.csv")
@@ -17,6 +18,8 @@ str(dat)
 mod1 <- lm(freq_log ~ size_log, data = dat)
 summary(mod1)
 anova(mod1)
+
+sjPlot::tab_model(mod1)
 
 # 2. Format tables-----------------------------------------------------------
 sum_table <- broom::tidy(summary(mod1))
