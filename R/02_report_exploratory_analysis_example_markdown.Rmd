@@ -1,0 +1,117 @@
+---
+title: "Exploratory analysis report"
+author: "Gustavo Paterno"
+date: "10/29/2019"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+    df_print: kable
+    theme: united
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# R Load packages
+
+You can find below, the packages used in this report. 
+
+```{r packages, message = FALSE}
+# Load packages
+library(tidyverse)
+library(cowplot)
+library(here)
+```
+
+# Load data
+
+TO load data in Rmarkdown files you must place .Rmd file in the same folder of 
+the data. As an alternative, you can use the R package [here](https://github.com/jennybc/here_here) to load data from any folder in your project (see code below).
+
+See the package website for details and tutorials: [here](https://github.com/jennybc/here_here). 
+
+```{r load}
+# Get the correct path for the data file with the package here
+path <- here("data", "processed", "processed_anura_call_data.csv")
+# Load data 
+d <- read.csv(path)
+```
+
+# Check if data was loaded correctly
+
+```{r}
+str(d)
+head(d)
+```
+
+
+# Descriptive statistics of study variables
+
+```{r}
+# Calculate mean, sd, minimum and max for each study variable 
+var_stats <-
+  data.frame(
+  var = c("Dominant Frequency", "Snout-vent length"),
+  avg      = round(c(mean(d$freq), mean(d$size)), digits = 1),
+  sd       = round(c(sd(d$freq), sd(d$size)), digits = 1),
+  min      = c(min(d$freq), min(d$size)),
+  max      = c(max(d$freq), max(d$size))
+)
+
+var_stats
+
+```
+
+
+# Distribution of numeric variables
+
+You can find below the distribution of each study variables in log and untransformed scale.
+
+```{r plots, message = FALSE}
+# Plot parameters
+base_size = 12
+
+# 2.1 Dominant frequency------
+g1 <-
+  ggplot(d, aes(x = freq)) +
+  geom_histogram(fill = "steelblue", color = "white") +
+  theme_classic(base_size = base_size) +
+  labs(x = "Dominant frequency (hertz)",
+       y = "Number of species")
+
+# 2.2 Dominant frequency (log)------
+g2 <-
+  ggplot(d, aes(x = freq)) +
+  geom_histogram(fill = "steelblue", color = "white") +
+  scale_x_continuous(trans = "log10") +
+  theme_classic(base_size = base_size) +
+  labs(x = "Dominant frequency (hertz)[log10]",
+       y = "Number of species")
+
+# 3.1 Body size------
+g3 <-
+  ggplot(d, aes(x = size)) +
+  geom_histogram(fill = "darkgreen", color = "white", alpha = .7) +
+  theme_classic(base_size = base_size) +
+  labs(x = "Snout-vent length (mm)",
+       y = "Number of species")
+
+# 3.2 Dominant frequency (log)------
+g4 <-
+  ggplot(d, aes(x = size)) +
+  geom_histogram(fill = "darkgreen", color = "white", alpha = .7) +
+  scale_x_continuous(trans = "log10") +
+  theme_classic(base_size = base_size) +
+  labs(x = "Snout-vent length (mm)[log10]",
+       y = "Number of species")
+
+# 4. All figures togther-----
+# align vertical and horizontal axis
+# Align by the lefth margin (axis = "l")
+gall <- plot_grid(g1, g2, g3, g4, labels = c("A", "B", "C", "D"), 
+                  align = "hv", axis = "l")
+gall
+```
