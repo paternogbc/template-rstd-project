@@ -60,7 +60,10 @@ g4 <-
        y = "Number of species")
 
 # 4. All figures togther-----
-gall <- plot_grid(g1, g2, g3, g4, labels = c("A", "B", "C", "D"))
+# align vertical and horizontal axis
+# Align by the lefth margin (axis = "l")
+gall <- plot_grid(g1, g2, g3, g4, labels = c("A", "B", "C", "D"), 
+                  align = "hv", axis = "l")
 gall
 
 # 5. Export table---------------
