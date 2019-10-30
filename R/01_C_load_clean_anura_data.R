@@ -51,7 +51,6 @@ levels(dat$envir)[levels(dat$envir) == "stilll"] <- "still"
 # check
 levels(dat$envir)
 
-# 2.2 
 # 4. Remove NAs-----------------------------------------------------------------
 na_check <- inspectdf::inspect_na(dat) # Percentage of NA in each columns
 na_check
